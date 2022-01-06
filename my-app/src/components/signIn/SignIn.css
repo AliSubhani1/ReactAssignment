@@ -1,0 +1,18 @@
+.login {
+  align-items: center;
+}
+.login > h3 {
+  margin-left: 20px;
+}
+.login-btn {
+  margin-left: 20px;
+  margin-top: 10px;
+}
+.text-fields {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+}
+.text-fields > div {
+  margin: 10px;
+}

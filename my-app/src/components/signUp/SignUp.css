@@ -1,0 +1,17 @@
+.login {
+  align-items: center;
+}
+.register-user > h3 {
+  margin-left: 20px;
+}
+.login-btn {
+  margin-left: 20px;
+  margin-top: 10px;
+}
+.text-fields {
+  padding: 10px;
+  display: flex;
+}
+.text-fields > div {
+  margin: 10px;
+}
