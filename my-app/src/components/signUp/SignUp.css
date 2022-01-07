@@ -11,7 +11,21 @@
 .text-fields {
   padding: 10px;
   display: flex;
+  flex-direction: column;
 }
 .text-fields > div {
   margin: 10px;
+}
+input {
+  border-radius: 25px;
+  border: 2px solid #2196f3;
+  padding: 20px;
+  width: 40vw;
+  height: 15px;
+}
+.error-msg {
+  color: red;
+}
+.error {
+  color: #d8000c;
 }

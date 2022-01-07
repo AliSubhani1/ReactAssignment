@@ -4,7 +4,7 @@ import { ThemeProvider } from "@mui/material";
 import SignIn from "./components/signIn/SignIn";
 import SignUp from "./components/signUp/SignUp";
 import { createTheme } from "@mui/material/styles";
-
+import { useSelector } from "react-redux";
 import {
   BrowserRouter as Router,
   Switch,
@@ -31,6 +31,14 @@ const theme = createTheme({
 });
 
 function App() {
+  const loginState = useSelector((state) => state.login);
+  let signInStatus = "";
+  console.log("redux state from app js=", loginState.isLogin);
+  if (loginState.isLogin) {
+    signInStatus = "Sign Out";
+  } else {
+    signInStatus = "Sign In";
+  }
   return (
     <Router>
       <ThemeProvider theme={theme}>
@@ -47,7 +55,7 @@ function App() {
                   to="/signin"
                   style={{ textDecoration: "none", color: "white" }}
                 >
-                  Sign In
+                  {signInStatus}
                 </Link>
               </li>
               <li>

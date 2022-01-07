@@ -5,46 +5,67 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import fire from "../../firebase/firebase";
 import "./SignUp.css";
+import { useSelector, useDispatch } from "react-redux";
+import { bindActionCreators } from "redux";
+import * as actionCreators from "../../redux/signup/signupAction";
+
 const SignUp = () => {
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
   const [password, setPassword] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const signupState = useSelector((state) => state.signup);
+  const dispatch = useDispatch();
   const clearInputs = () => {
     setEmail("");
     setPassword("");
+    setConfirmPassword("");
   };
   const clearErrors = () => {
     setEmailError("");
     setPasswordError("");
   };
+  const NewUser = {
+    isRegistered: false,
+  };
   const handleSubmit = () => {
     clearErrors();
     const auth = getAuth();
-
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        // Signed in
-        const user = userCredential.user;
-        console.log("firebase user sign up section=", user);
-        // ...
-      })
-      .catch((error) => {
-        var errorCode = error.code;
-        console.log("firebase sign up error code=", errorCode);
-        var errorMessage = error.message;
-        console.log("firebase sign up error msg=", errorMessage);
-        switch (errorCode) {
-          case "auth/email-already-in-use":
-          case "auth/invalid-email":
-            setEmailError(errorMessage);
-            break;
-          case "auth/weak-password":
-            setPasswordError(errorMessage);
-            break;
-        }
-      });
+    console.log("redux register value=", signupState);
+    if (password === confirmPassword) {
+      createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          // Signed in
+          const user = userCredential.user;
+          console.log("firebase user sign up section=", user);
+          NewUser.isRegistered = true;
+          dispatch(actionCreators.signUpSuccess(NewUser));
+          // ...
+        })
+        .catch((error) => {
+          var errorCode = error.code;
+          console.log("firebase sign up error code=", errorCode);
+          NewUser.isRegistered = false;
+          dispatch(actionCreators.signUpSuccess(NewUser));
+          var errorMessage = error.message;
+          console.log("firebase sign up error msg=", errorMessage);
+          switch (errorCode) {
+            case "auth/email-already-in-use":
+              setEmailError("Error: Email already in use");
+              break;
+            case "auth/invalid-email":
+              setEmailError("Error: Invalid Email");
+              break;
+            case "auth/weak-password":
+              setPasswordError("Error: Weak Password");
+              break;
+          }
+        });
+    } else {
+      setPasswordError("Error: Password Not Matched");
+    }
+    clearInputs();
 
     if (email && password && confirmPassword) {
       console.log(email, password, confirmPassword);
@@ -55,43 +76,45 @@ const SignUp = () => {
       <h3>Register your account! </h3>
       <div className="text-fields">
         <div>
-          <TextField
+          <input
             onChange={(e) => {
               setEmail(e.target.value);
               //console.log(email);
             }}
-            placeholder="Email Address"
-            label="Email"
-            color="primary"
-            focused
             type="email"
+            label="Email"
+            placeholder="Email Address"
+            required
+            value={email}
           />
+          {/* <p className="error-msg">{emailError}</p> */}
+          <div className="error">{emailError}</div>
         </div>
         <div>
-          <TextField
+          <input
             onChange={(e) => {
               setPassword(e.target.value);
               //console.log(password);
             }}
             placeholder="Password"
             label="Password"
-            color="primary"
-            focused
             type="password"
+            value={password}
           />
+          <div className="error">{passwordError}</div>
         </div>
         <div>
-          <TextField
+          <input
             onChange={(e) => {
               setConfirmPassword(e.target.value);
               //console.log(password);
             }}
             placeholder="Confirm Password"
             label="Confirm Password"
-            color="primary"
-            focused
             type="password"
+            value={confirmPassword}
           />
+          <div className="error">{passwordError}</div>
         </div>
       </div>
       <div className="login-btn">
