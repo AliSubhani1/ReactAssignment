@@ -4,7 +4,7 @@ import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import fire from "../../firebase/firebase";
-import { Route, Redirect, useHistory } from "react-router";
+import { Route, Redirect, useHistory } from "react-router-dom";
 import "./SignIn.css";
 import { useSelector, useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -49,7 +49,7 @@ const SignIn = () => {
 
         console.log("Signed in to firebase");
         console.log(user);
-        <Redirect to="/" />;
+        <Redirect to="/home" />;
         // ...
       })
       .catch((error) => {
@@ -75,7 +75,9 @@ const SignIn = () => {
             break;
         }
       });
-
+    if (CurrentUser.isLogin) {
+      <Redirect to="/home" />;
+    }
     clearInputs();
     if (email && password) {
       console.log(email, password);

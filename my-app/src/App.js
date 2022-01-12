@@ -4,7 +4,11 @@ import { ThemeProvider } from "@mui/material";
 import SignIn from "./components/signIn/SignIn";
 import SignUp from "./components/signUp/SignUp";
 import { createTheme } from "@mui/material/styles";
+import { useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
+import Book from "./components/Book/Book";
+import Navbar from "./components/nav/navbar";
+import AddBook from "./components/AddBook/AddBook";
 import {
   BrowserRouter as Router,
   Switch,
@@ -33,44 +37,19 @@ const theme = createTheme({
 function App() {
   const loginState = useSelector((state) => state.login);
   let signInStatus = "";
+
   console.log("redux state from app js=", loginState.isLogin);
   if (loginState.isLogin) {
     signInStatus = "Sign Out";
   } else {
     signInStatus = "Sign In";
   }
+
   return (
     <Router>
       <ThemeProvider theme={theme}>
         <div>
-          <nav className="main-menu">
-            <ul>
-              <li>
-                <Link to="/" style={{ textDecoration: "none", color: "white" }}>
-                  Home
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/signin"
-                  style={{ textDecoration: "none", color: "white" }}
-                >
-                  {signInStatus}
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/signup"
-                  style={{ textDecoration: "none", color: "white" }}
-                >
-                  Sign Up
-                </Link>
-              </li>
-            </ul>
-          </nav>
-
-          {/* A <Switch> looks through its children <Route>s and
-            renders the first one that matches the current URL. */}
+          <Navbar />
           <Switch>
             <Route exact path="/signin">
               <SignIn />
@@ -78,7 +57,12 @@ function App() {
             <Route exact path="/signup">
               <SignUp />
             </Route>
-            <Route exact path="/"></Route>
+            <Route exact path="/home">
+              <div className="book-list">
+                <Book />
+                <AddBook />
+              </div>
+            </Route>
           </Switch>
         </div>
       </ThemeProvider>

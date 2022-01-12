@@ -1,0 +1,19 @@
+#book-form {
+  display: none;
+}
+#Author-form {
+  display: none;
+}
+#open-form-btn {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+}
+#open-author-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+}
+.add-book > h3 {
+  text-align: center;
+}
