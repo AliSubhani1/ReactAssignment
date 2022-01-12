@@ -9,6 +9,7 @@ import { useSelector } from "react-redux";
 import Book from "./components/Book/Book";
 import Navbar from "./components/nav/navbar";
 import AddBook from "./components/AddBook/AddBook";
+import AddAuthor from "./components/AddAuthor/AddAuthor";
 import {
   BrowserRouter as Router,
   Switch,
@@ -60,7 +61,10 @@ function App() {
             <Route exact path="/home">
               <div className="book-list">
                 <Book />
-                <AddBook />
+                <div className="add-data">
+                  <AddBook />
+                  <AddAuthor />
+                </div>
               </div>
             </Route>
           </Switch>

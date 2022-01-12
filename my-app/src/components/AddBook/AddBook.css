@@ -17,3 +17,11 @@
 .add-book > h3 {
   text-align: center;
 }
+.btn-add-book {
+  display: block;
+  padding-right: 20px;
+}
+.add-book {
+  display: block;
+  margin-right: 20px;
+}

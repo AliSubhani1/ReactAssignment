@@ -1,14 +1,14 @@
 import * as React from "react";
-import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import "./AddBook.css";
+import Slide from "@mui/material/Slide";
 
-const AddBook = () => {
+const AddAuthor = () => {
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -18,52 +18,32 @@ const AddBook = () => {
   const handleClose = () => {
     setOpen(false);
   };
-
   return (
-    <div className="add-book">
-      <Button
-        className="btn-add-book"
-        variant="contained"
-        onClick={handleClickOpen}
-      >
-        Add Book
+    <div>
+      <Button variant="contained" onClick={handleClickOpen}>
+        Add Author
       </Button>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Add new book</DialogTitle>
+        <DialogTitle>Add an author</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Please enter the title, genre and author of book below.
+            Please enter name of an author below.
           </DialogContentText>
           <TextField
             margin="dense"
-            id="title"
-            label="Book Title"
-            type="text"
-            fullWidth
-            variant="standard"
-          />
-          <TextField
-            margin="dense"
-            id="Author"
+            id="name"
             label="Author Name"
-            type="text"
-            fullWidth
-            variant="standard"
-          />
-          <TextField
-            margin="dense"
-            id="Genre"
-            label="Genre"
             type="text"
             fullWidth
             variant="standard"
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Add Book</Button>
+          <Button onClick={handleClose}>Add Author</Button>
         </DialogActions>
       </Dialog>
     </div>
   );
 };
-export default AddBook;
+
+export default AddAuthor;

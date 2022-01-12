@@ -45,3 +45,8 @@ body {
   flex-direction: row;
   justify-content: space-around;
 }
+.add-data {
+  display: block;
+  display: flex;
+  flex-direction: row;
+}
