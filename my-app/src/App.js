@@ -4,7 +4,7 @@ import { ThemeProvider } from "@mui/material";
 import SignIn from "./components/signIn/SignIn";
 import SignUp from "./components/signUp/SignUp";
 import { createTheme } from "@mui/material/styles";
-import { useHistory } from "react-router-dom";
+import { useHistory, Redirect } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Book from "./components/Book/Book";
 import Navbar from "./components/nav/navbar";
@@ -37,14 +37,14 @@ const theme = createTheme({
 
 function App() {
   const loginState = useSelector((state) => state.login);
-  let signInStatus = "";
+  // let signInStatus = "";
 
-  console.log("redux state from app js=", loginState.isLogin);
-  if (loginState.isLogin) {
-    signInStatus = "Sign Out";
-  } else {
-    signInStatus = "Sign In";
-  }
+  // console.log("redux state from app js=", loginState.isLogin);
+  // if (loginState.isLogin) {
+  //   signInStatus = "Sign Out";
+  // } else {
+  //   signInStatus = "Sign In";
+  // }
 
   return (
     <Router>

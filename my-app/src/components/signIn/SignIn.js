@@ -49,7 +49,7 @@ const SignIn = () => {
 
         console.log("Signed in to firebase");
         console.log(user);
-        <Redirect to="/home" />;
+
         // ...
       })
       .catch((error) => {
@@ -75,8 +75,11 @@ const SignIn = () => {
             break;
         }
       });
+    {
+      CurrentUser.isLogin && <Redirect to="/home" />;
+    }
     if (CurrentUser.isLogin) {
-      <Redirect to="/home" />;
+      <Redirect from="/signin" to="/home" />;
     }
     clearInputs();
     if (email && password) {
@@ -85,7 +88,9 @@ const SignIn = () => {
   };
 
   const handleLogout = () => {
+    CurrentUser.isLogin = false;
     fire.auth().signout();
+    return <Redirect to="/signin" />;
   };
   const authListener = () => {
     if (user) {

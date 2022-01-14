@@ -1,4 +1,6 @@
 import { initializeApp } from "firebase/app";
+import { getFirestore, collection, addDoc, getDocs } from "firebase/firestore";
+import AddBook from "../components/AddBook/AddBook";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -14,4 +16,35 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const fire = initializeApp(firebaseConfig);
+
+//initialise db variable
+const db = getFirestore();
+
+//collection ref
+// const colRef_Books = collection(db, "books");
+const colRef_Authors = collection(db, "authors");
+// let books = [];
+// getDocs(colRef_Books)
+//   .then((snapshot) => {
+//     snapshot.docs.forEach((doc) => {
+//       books.push({ ...doc.data(), id: doc.id });
+//     });
+//     console.log("Books=", books);
+//   })
+//   .catch((err) => {
+//     console.log(err.message);
+//   });
+// export let AllBooks = books;
+let authors = [];
+getDocs(colRef_Authors)
+  .then((snapshot) => {
+    snapshot.docs.forEach((doc) => {
+      authors.push({ ...doc.data(), id: doc.id });
+    });
+    console.log("Authors=", authors);
+  })
+  .catch((err) => {
+    console.log(err.message);
+  });
+export let allAuthors = authors;
 export default fire;
