@@ -9,7 +9,7 @@ const authorReducer = (state = [], action) => {
     case ADD_AUTHOR:
       return [...state, { ...action.payload }];
     case FETCH_AUTHORS:
-      return [(state = action.payload)];
+      return (state = [...action.payload]);
     default:
       return state;
   }

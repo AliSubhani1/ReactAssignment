@@ -1,6 +1,7 @@
 import "./navbar.css";
 import React, { useState, useEffect } from "react";
 import { Redirect, Link } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { useSelector } from "react-redux";
 import fire from "../../firebase/firebase";
 import { getAuth, signInWithEmailAndPassword, signOut } from "firebase/auth";
@@ -8,10 +9,9 @@ const Navbar = () => {
   const loginState = useSelector((state) => state.login);
   console.log("loginState from navabr=", loginState);
   const [signin, setSignin] = useState(loginState.isLogin);
-  const [loginFlag, setLoginFlag] = useState(
-    localStorage.getItem("isLoggedin")
-  );
+  let [loginFlag, setLoginFlag] = useState(loginState.isLogin);
   const handleLogout = () => {
+    setLoginFlag(false);
     loginState.isLogin = false;
     setSignin(false);
     const auth = getAuth();
@@ -24,14 +24,23 @@ const Navbar = () => {
         console.log("Firebase sign out error", error.message);
       });
   };
+  if (loginState.isLogin) {
+    loginFlag = true;
+  }
   useEffect(() => {
     setLoginFlag(localStorage.getItem("isLoggedin"));
-  }, [loginState.isLogin]);
+    if (loginFlag) {
+      <Redirect to="/home" />;
+    } else {
+      <Redirect to="/signin" />;
+    }
+  }, []);
   // let loginFlag = localStorage.getItem("isLoggedin");
   console.log("login local storage", loginFlag);
-  if (loginState.isLogin) {
+  if (loginFlag) {
     return (
       <div>
+        {loginFlag && <Redirect to="/home" />}
         <Redirect to="/home" />;
         <nav className="main-menu">
           <ul>

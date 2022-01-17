@@ -50,6 +50,8 @@ const Book = () => {
   let PrevBooksData = [];
   //collection ref
   const colRef_Books = collection(db, "books");
+  // const currentBooks = useSelector((state) => state.book);
+
   //const querySnapshot = await getDocs(collection(db, "books"));
   //dispatch(actionCreators.fetchBook(booksData));
   let books = [];

@@ -58,8 +58,12 @@ const AddAuthor = () => {
     });
     AuthorsData.push(AuthorName);
     dispatch(actionCreators.fetchAuthor(AuthorsData));
+    setAuthorName("");
   };
-
+  const CloseDialog = () => {
+    setOpen(false);
+    setAuthorName("");
+  };
   //const querySnapshot = await getDocs(collection(db, "books"));
   let authors = [];
   useEffect(() => {
@@ -81,7 +85,7 @@ const AddAuthor = () => {
       <Button variant="contained" onClick={handleClickOpen}>
         Add Author
       </Button>
-      <Dialog open={open} onClose={handleClose}>
+      <Dialog open={open} onClose={CloseDialog}>
         <DialogTitle>Add an author</DialogTitle>
         <DialogContent>
           <DialogContentText>

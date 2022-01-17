@@ -3,7 +3,9 @@ import Input from "@mui/material/Input";
 import {
   getAuth,
   signInWithEmailAndPassword,
+  setPersistence,
   onAuthStateChanged,
+  browserSessionPersistence,
 } from "firebase/auth";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
@@ -48,7 +50,7 @@ const SignIn = () => {
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
-        CurrentUser.isLogin = true;
+        // CurrentUser.isLogin = true;
         dispatch(actionCreators.logInSuccess(CurrentUser));
 
         console.log("Signed in to firebase");
@@ -59,7 +61,7 @@ const SignIn = () => {
       .catch((error) => {
         console.log("error section of login");
         localStorage.setItem("isLoggedin", false);
-        CurrentUser.isLogin = false;
+        // CurrentUser.isLogin = false;
         dispatch(actionCreators.logInFail(CurrentUser));
         var errorCode = error.code;
         var errorMessage = error.message;
@@ -85,7 +87,7 @@ const SignIn = () => {
         // User is signed in, see docs for a list of available properties
         // https://firebase.google.com/docs/reference/js/firebase.User
         const uid = user.uid;
-        CurrentUser.isLogin = true;
+
         dispatch(actionCreators.logInSuccess(CurrentUser));
         // ...
       } else {
@@ -93,6 +95,22 @@ const SignIn = () => {
         // ...
       }
     });
+    setPersistence(auth, browserSessionPersistence)
+      .then(() => {
+        CurrentUser.isLogin = true;
+        // Existing and future Auth states are now persisted in the current
+        // session only. Closing the window would clear any existing state even
+        // if a user forgets to sign out.
+        // ...
+        // New sign-in will be persisted with session persistence.
+        return signInWithEmailAndPassword(auth, email, password);
+      })
+      .catch((error) => {
+        // Handle Errors here.
+        CurrentUser.isLogin = false;
+        const errorCode = error.code;
+        const errorMessage = error.message;
+      });
     clearInputs();
     if (email && password) {
       console.log(email, password);

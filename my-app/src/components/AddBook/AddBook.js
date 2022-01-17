@@ -7,6 +7,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import * as actionCreators from "../../redux/Book/BookAction";
+import FormControl from "@mui/material/FormControl";
 import "./AddBook.css";
 import { useSelector, useDispatch } from "react-redux";
 import { getFirestore, collection, addDoc } from "firebase/firestore";
@@ -22,6 +23,7 @@ const AddBook = () => {
   const [bookTitle, setBookTitle] = React.useState("");
   const [bookAuthor, setBookAuthor] = React.useState("");
   const [bookGenre, setBookGenre] = React.useState("");
+
   const dispatch = useDispatch();
   const handleClickOpen = () => {
     setOpen(true);
@@ -61,9 +63,19 @@ const AddBook = () => {
     }).then(() => {
       console.log("new book added to firestore");
       setOpenAlert(true);
+      setBookAuthor("");
+      setBookTitle("");
+      setBookGenre("");
     });
   };
-
+  const CloseDialog = () => {
+    setOpen(false);
+    setBookAuthor("");
+    setBookTitle("");
+    setBookGenre("");
+  };
+  // const [curAuthors] =  ...currentAuthors ;
+  // console.log("cur=", curAuthors);
   return (
     <div className="add-book">
       <Button
@@ -73,7 +85,7 @@ const AddBook = () => {
       >
         Add Book
       </Button>
-      <Dialog open={open} onClose={handleClose}>
+      <Dialog open={open} onClose={CloseDialog}>
         <DialogTitle>Add new book</DialogTitle>
         <DialogContent className="dialog-content">
           <DialogContentText>
@@ -93,23 +105,40 @@ const AddBook = () => {
             }}
             value={bookTitle}
           />
-          {/* <InputLabel id="demo-simple-select-label">Author</InputLabel>
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            value="Author"
-            label="Author"
+          <div className="select-author">
+            <FormControl fullWidth>
+              <InputLabel id="demo-simple-select-label">Author</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                // value=
+                label="Author"
+                onChange={(e) => {
+                  setBookAuthor(e.target.value);
+                  //console.log(email);
+                }}
+              >
+                {
+                  currentAuthors.map((author) => {
+                    return (
+                      <MenuItem key={author.id} value={author.name}>
+                        {author.name}
+                      </MenuItem>
+                    );
+                  })
 
-            //onChange={handleChange}
-          ></Select>
-          {currentAuthors.map((author) => {
-            return (
-              <div key={author.id}>
-                <MenuItem value={author}>{author}</MenuItem>
-              </div>
-            );
-          })} */}
-          <TextField
+                  // {currentAuthors.map((author) => {
+                  //   return (
+                  //     <div key={author.id}>
+                  //       <MenuItem value={author}>{author}</MenuItem>
+                  //     </div>
+                  //   );
+                  // })}
+                }
+              </Select>
+            </FormControl>
+          </div>
+          {/* <TextField
             margin="dense"
             id="Author"
             label="Author Name"
@@ -122,7 +151,7 @@ const AddBook = () => {
               //console.log(email);
             }}
             value={bookAuthor}
-          />
+          /> */}
           <TextField
             margin="dense"
             id="Genre"
