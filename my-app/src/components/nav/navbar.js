@@ -8,6 +8,9 @@ const Navbar = () => {
   const loginState = useSelector((state) => state.login);
   console.log("loginState from navabr=", loginState);
   const [signin, setSignin] = useState(loginState.isLogin);
+  const [loginFlag, setLoginFlag] = useState(
+    localStorage.getItem("isLoggedin")
+  );
   const handleLogout = () => {
     loginState.isLogin = false;
     setSignin(false);
@@ -15,12 +18,17 @@ const Navbar = () => {
     signOut(auth)
       .then(() => {
         console.log("firebase user signed out");
+        localStorage.setItem("isLoggedin", false);
       })
       .catch((error) => {
         console.log("Firebase sign out error", error.message);
       });
   };
-
+  useEffect(() => {
+    setLoginFlag(localStorage.getItem("isLoggedin"));
+  }, [loginState.isLogin]);
+  // let loginFlag = localStorage.getItem("isLoggedin");
+  console.log("login local storage", loginFlag);
   if (loginState.isLogin) {
     return (
       <div>

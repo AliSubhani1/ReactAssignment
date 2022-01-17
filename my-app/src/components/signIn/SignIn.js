@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Input from "@mui/material/Input";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  onAuthStateChanged,
+} from "firebase/auth";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import fire from "../../firebase/firebase";
@@ -49,11 +53,12 @@ const SignIn = () => {
 
         console.log("Signed in to firebase");
         console.log(user);
-
+        localStorage.setItem("isLoggedin", true);
         // ...
       })
       .catch((error) => {
         console.log("error section of login");
+        localStorage.setItem("isLoggedin", false);
         CurrentUser.isLogin = false;
         dispatch(actionCreators.logInFail(CurrentUser));
         var errorCode = error.code;
@@ -75,12 +80,19 @@ const SignIn = () => {
             break;
         }
       });
-    {
-      CurrentUser.isLogin && <Redirect to="/home" />;
-    }
-    if (CurrentUser.isLogin) {
-      <Redirect from="/signin" to="/home" />;
-    }
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // User is signed in, see docs for a list of available properties
+        // https://firebase.google.com/docs/reference/js/firebase.User
+        const uid = user.uid;
+        CurrentUser.isLogin = true;
+        dispatch(actionCreators.logInSuccess(CurrentUser));
+        // ...
+      } else {
+        // User is signed out
+        // ...
+      }
+    });
     clearInputs();
     if (email && password) {
       console.log(email, password);
@@ -90,7 +102,7 @@ const SignIn = () => {
   const handleLogout = () => {
     CurrentUser.isLogin = false;
     fire.auth().signout();
-    return <Redirect to="/signin" />;
+    localStorage.setItem("isLoggedin", false);
   };
   const authListener = () => {
     if (user) {

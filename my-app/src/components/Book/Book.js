@@ -47,10 +47,11 @@ const Book = () => {
   };
   //initialise db variable
   const db = getFirestore();
-
+  let PrevBooksData = [];
   //collection ref
   const colRef_Books = collection(db, "books");
   //const querySnapshot = await getDocs(collection(db, "books"));
+  //dispatch(actionCreators.fetchBook(booksData));
   let books = [];
   useEffect(() => {
     getDocs(colRef_Books)
@@ -65,11 +66,11 @@ const Book = () => {
         console.log(err.message);
       });
   }, []);
-
   dispatch(actionCreators.fetchBook(booksData));
+  //dispatch(actionCreators.fetchBook(booksData));
   // const reduxBooks = useSelector((state) => state.book);
   // console.log("redux books=", reduxBooks);
-  console.log("Books dataaaa=", booksData);
+  //console.log("Books dataaaa=", booksData);
   return booksData.map((book) => {
     return (
       <div className="Books" key={book.id}>

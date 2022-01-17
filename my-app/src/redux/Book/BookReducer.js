@@ -4,7 +4,7 @@ const books = {
   genre: "",
   title: "",
 };
-const bookReducer = (state = [], action) => {
+const bookReducer = (state = null, action) => {
   switch (action.type) {
     case ADD_BOOK:
       return state.push(action.payload);
