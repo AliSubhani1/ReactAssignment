@@ -7,7 +7,7 @@ const books = {
 const authorReducer = (state = [], action) => {
   switch (action.type) {
     case ADD_AUTHOR:
-      return [...state, { ...action.payload }];
+      return [...state, action.payload];
     case FETCH_AUTHORS:
       return (state = [...action.payload]);
     default:

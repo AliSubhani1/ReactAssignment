@@ -31,7 +31,7 @@ const AddBook = () => {
   const currentBooks = useSelector((state) => state.book);
   const currentAuthors = useSelector((state) => state.author);
   console.log("redux authors from add book=", currentAuthors);
-  console.log("redux books from add book file=", currentBooks);
+  // console.log("redux books from add book file=", currentBooks);
 
   const [openAlert, setOpenAlert] = React.useState(false);
   const Alert = React.forwardRef(function Alert(props, ref) {
@@ -49,13 +49,13 @@ const AddBook = () => {
   const colRef_Books = collection(db, "books");
   const handleClose = () => {
     setOpen(false);
-    dispatch(
-      actionCreators.addBook({
-        author: bookAuthor,
-        title: bookTitle,
-        genre: bookGenre,
-      })
-    );
+    let currentBook = {
+      author: bookAuthor,
+      title: bookTitle,
+      genre: bookGenre,
+    };
+    // let updatedArr = currentBooks.push(currentBook);
+    // dispatch(actionCreators.addBook(currentBook));
     addDoc(colRef_Books, {
       author: bookAuthor,
       title: bookTitle,

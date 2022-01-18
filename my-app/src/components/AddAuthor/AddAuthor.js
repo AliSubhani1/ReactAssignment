@@ -56,7 +56,7 @@ const AddAuthor = () => {
       console.log("new author to firestore");
       setOpenAlert(true);
     });
-    AuthorsData.push(AuthorName);
+    AuthorsData.push({ name: AuthorName });
     dispatch(actionCreators.fetchAuthor(AuthorsData));
     setAuthorName("");
   };

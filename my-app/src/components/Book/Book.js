@@ -5,7 +5,7 @@ import Stack from "@mui/material/Stack";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 // import { AllBooks } from "../../firebase/firebase";
 import {
   getFirestore,
@@ -55,7 +55,8 @@ const Book = () => {
   //const querySnapshot = await getDocs(collection(db, "books"));
   //dispatch(actionCreators.fetchBook(booksData));
   let books = [];
-  useEffect(() => {
+
+  const fetchData = useCallback(() => {
     getDocs(colRef_Books)
       .then((snapshot) => {
         snapshot.docs.forEach((doc) => {
@@ -67,8 +68,19 @@ const Book = () => {
       .catch((err) => {
         console.log(err.message);
       });
-  }, []);
-  dispatch(actionCreators.fetchBook(booksData));
+  }, [colRef_Books]);
+  useEffect(() => {
+    fetchData();
+  }, [booksData]);
+
+  // useEffect(() => {
+  //   dispatch(actionCreators.fetchBook(booksData));
+  // }, []);
+
+  const fetchDataa = useCallback(() => {
+    dispatch(actionCreators.fetchBook(booksData));
+  }, [colRef_Books]);
+
   //dispatch(actionCreators.fetchBook(booksData));
   // const reduxBooks = useSelector((state) => state.book);
   // console.log("redux books=", reduxBooks);
