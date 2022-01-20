@@ -7,7 +7,7 @@ import {
 const authorReducer = (state = [], action) => {
   switch (action.type) {
     case ADD_AUTHOR:
-      return [...state, action.payload];
+      return [...state, Object.assign({}, action.payload)];
     case FETCH_AUTHORS_SUCCESS:
       return (state = [...action.payload]);
     case FETCH_AUTHORS_FAILURE:

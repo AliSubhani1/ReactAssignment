@@ -1,8 +1,9 @@
 import {
-  ADD_BOOK,
+  ADD_BOOK_SUCCESS,
+  ADD_BOOK_FAILURE,
   REMOVE_BOOK,
-  FETCH_BOOKS_SUCCESS,
   FETCH_BOOKS_FAILURE,
+  FETCH_BOOKS_SUCCESS,
 } from "./BookTypes";
 const books = {
   author: "",
@@ -11,8 +12,10 @@ const books = {
 };
 const bookReducer = (state = null, action) => {
   switch (action.type) {
-    case ADD_BOOK:
-      return [(state = action.payload)];
+    case ADD_BOOK_SUCCESS:
+      return [...state, Object.assign({}, action.payload)];
+    case ADD_BOOK_FAILURE:
+      return [...state, Object.assign({}, action.payload)];
 
     case REMOVE_BOOK:
       return state.filter((item) => item.id !== action.payload.id);

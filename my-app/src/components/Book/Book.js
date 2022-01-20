@@ -33,7 +33,7 @@ const Book = () => {
   const [loadingFlag, setLoadingFlag] = useState(true);
   const dispatch = useDispatch();
   let titles = data.title;
-  const booksRedux = useSelector((state) => state.book);
+  let booksRedux = useSelector((state) => state.book);
   console.log("redux res in book js=", booksRedux);
 
   const Alert = React.forwardRef(function Alert(props, ref) {
@@ -91,7 +91,7 @@ const Book = () => {
   // const reduxBooks = useSelector((state) => state.book);
   // console.log("redux books=", reduxBooks);
   //console.log("Books dataaaa=", booksData);
-  console.log("boooooks=", booksData);
+  // console.log("boooooks=", booksData);
   if (booksRedux) {
     return booksRedux.map((book) => {
       return (
@@ -122,10 +122,10 @@ const Book = () => {
                   className="delete-btn"
                   variant="contained"
                   onClick={() => {
-                    const docref = doc(db, "books", selectedBook.id);
-                    deleteDoc(docref).then(() => {
-                      console.log("book deleted");
-                    });
+                    // const docref = doc(db, "books", selectedBook.id);
+                    // deleteDoc(docref).then(() => {
+                    //   console.log("book deleted");
+                    // });
                     dispatch(actionCreators.removeBook(selectedBook));
 
                     const filteredBooks = booksRedux.filter(
@@ -133,7 +133,9 @@ const Book = () => {
                         book.author != selectedBook.author &&
                         book.id !== selectedBook.id
                     );
-                    setBooksData(filteredBooks);
+                    // setBooksData(filteredBooks);
+                    booksRedux = filteredBooks;
+                    console.log("filtered new=", booksRedux);
                     setOpenAlert(true);
                   }}
                 >

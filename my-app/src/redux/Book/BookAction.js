@@ -1,5 +1,6 @@
 import {
-  ADD_BOOK,
+  ADD_BOOK_SUCCESS,
+  ADD_BOOK_FAILURE,
   REMOVE_BOOK,
   FETCH_BOOKS_FAILURE,
   FETCH_BOOKS_SUCCESS,
@@ -16,6 +17,11 @@ import { useState, useEffect } from "react";
 
 export const removeBook = (book) => {
   return (dispatch) => {
+    const db = getFirestore();
+    const docref = doc(db, "books", book.id);
+    deleteDoc(docref).then(() => {
+      console.log("book deleted");
+    });
     dispatch({
       type: REMOVE_BOOK,
       payload: book,
@@ -24,11 +30,27 @@ export const removeBook = (book) => {
 };
 
 export const addBook = (book) => {
+  const db = getFirestore();
+  const colRef_Books = collection(db, "books");
+
   return (dispatch) => {
-    dispatch({
-      type: ADD_BOOK,
-      payload: book,
+    addDoc(colRef_Books, {
+      author: book.author,
+      title: book.title,
+      genre: book.genre,
+    }).then(() => {
+      console.log("new book added to firestore");
+      dispatch({
+        type: ADD_BOOK_SUCCESS,
+        payload: book,
+      });
     });
+    // .catch(() => {
+    //   dispatch({
+    //     type: ADD_BOOK_FAILURE,
+    //     payload: book,
+    //   });
+    // });
   };
 };
 

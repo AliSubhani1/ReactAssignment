@@ -28,10 +28,13 @@ const AddBook = () => {
   const handleClickOpen = () => {
     setOpen(true);
   };
+
   const currentBooks = useSelector((state) => state.book);
+
+  console.log("redux books from add book file=", currentBooks);
+
   const currentAuthors = useSelector((state) => state.author);
   console.log("redux authors from add book=", currentAuthors);
-  console.log("redux books from add book file=", currentBooks);
 
   const [openAlert, setOpenAlert] = React.useState(false);
   const Alert = React.forwardRef(function Alert(props, ref) {
@@ -54,19 +57,26 @@ const AddBook = () => {
       title: bookTitle,
       genre: bookGenre,
     };
+
     // let updatedArr = currentBooks.push(currentBook);
-    // dispatch(actionCreators.addBook(currentBook));
-    addDoc(colRef_Books, {
-      author: bookAuthor,
-      title: bookTitle,
-      genre: bookGenre,
-    }).then(() => {
-      console.log("new book added to firestore");
-      setOpenAlert(true);
-      setBookAuthor("");
-      setBookTitle("");
-      setBookGenre("");
-    });
+
+    dispatch(actionCreators.addBook(currentBook));
+
+    setOpenAlert(true);
+    setBookAuthor("");
+    setBookTitle("");
+    setBookGenre("");
+    // addDoc(colRef_Books, {
+    //   author: bookAuthor,
+    //   title: bookTitle,
+    //   genre: bookGenre,
+    // }).then(() => {
+    //   console.log("new book added to firestore");
+    //   setOpenAlert(true);
+    //   setBookAuthor("");
+    //   setBookTitle("");
+    //   setBookGenre("");
+    // });
   };
   const CloseDialog = () => {
     setOpen(false);
