@@ -1,3 +1,4 @@
 export const ADD_BOOK = "ADD_BOOK";
 export const REMOVE_BOOK = "REMOVE_BOOK";
-export const FETCH_BOOKS = "FETCH_BOOKS";
+export const FETCH_BOOKS_SUCCESS = "FETCH_BOOKS_SUCCESS";
+export const FETCH_BOOKS_FAILURE = "FETCH_BOOKS_FAILURE";

@@ -23,9 +23,12 @@ import {
 } from "firebase/firestore";
 const AddAuthor = () => {
   const [open, setOpen] = React.useState(false);
-  const [AuthorsData, setAuthorsData] = useState([]);
+  const [AuthorsData, setAuthorsData] = useState(
+    useSelector((state) => state.author)
+  );
   const [AuthorName, setAuthorName] = useState([]);
   const [openAlert, setOpenAlert] = React.useState(false);
+  const authorRedux = useSelector((state) => state.author);
   const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
   });
@@ -57,7 +60,7 @@ const AddAuthor = () => {
       setOpenAlert(true);
     });
     AuthorsData.push({ name: AuthorName });
-    dispatch(actionCreators.fetchAuthor(AuthorsData));
+    // dispatch(actionCreators.fetchAuthor());
     setAuthorName("");
   };
   const CloseDialog = () => {
@@ -67,19 +70,19 @@ const AddAuthor = () => {
   //const querySnapshot = await getDocs(collection(db, "books"));
   let authors = [];
   useEffect(() => {
-    getDocs(colRef_Authors)
-      .then((snapshot) => {
-        snapshot.docs.forEach((doc) => {
-          authors.push({ ...doc.data(), id: doc.id });
-        });
-        setAuthorsData(authors);
-      })
-      .catch((err) => {
-        console.log(err.message);
-      });
+    // getDocs(colRef_Authors)
+    //   .then((snapshot) => {
+    //     snapshot.docs.forEach((doc) => {
+    //       authors.push({ ...doc.data(), id: doc.id });
+    //     });
+    //     setAuthorsData(authors);
+    //   })
+    //   .catch((err) => {
+    //     console.log(err.message);
+    //   });
   }, []);
-  console.log("latest authors=", AuthorsData);
-  dispatch(actionCreators.fetchAuthor(AuthorsData));
+  // console.log("latest authors=", AuthorsData);
+  dispatch(actionCreators.fetchAuthor());
   return (
     <div>
       <Button variant="contained" onClick={handleClickOpen}>

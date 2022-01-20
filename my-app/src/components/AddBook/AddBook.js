@@ -31,7 +31,7 @@ const AddBook = () => {
   const currentBooks = useSelector((state) => state.book);
   const currentAuthors = useSelector((state) => state.author);
   console.log("redux authors from add book=", currentAuthors);
-  // console.log("redux books from add book file=", currentBooks);
+  console.log("redux books from add book file=", currentBooks);
 
   const [openAlert, setOpenAlert] = React.useState(false);
   const Alert = React.forwardRef(function Alert(props, ref) {
