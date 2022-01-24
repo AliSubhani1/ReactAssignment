@@ -1,6 +1,5 @@
 import {
   ADD_BOOK_SUCCESS,
-  ADD_BOOK_FAILURE,
   REMOVE_BOOK,
   FETCH_BOOKS_FAILURE,
   FETCH_BOOKS_SUCCESS,
@@ -13,7 +12,7 @@ import {
   deleteDoc,
   doc,
 } from "firebase/firestore";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 
 export const removeBook = (book) => {
   return (dispatch) => {
@@ -45,12 +44,6 @@ export const addBook = (book) => {
         payload: book,
       });
     });
-    // .catch(() => {
-    //   dispatch({
-    //     type: ADD_BOOK_FAILURE,
-    //     payload: book,
-    //   });
-    // });
   };
 };
 

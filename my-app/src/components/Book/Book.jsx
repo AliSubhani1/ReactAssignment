@@ -1,38 +1,21 @@
-import data from "../BooksData/BooksData";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
-
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
-
-import React, { useState, useEffect, useCallback } from "react";
-// import { AllBooks } from "../../firebase/firebase";
-import {
-  getFirestore,
-  collection,
-  addDoc,
-  getDocs,
-  deleteDoc,
-  doc,
-} from "firebase/firestore";
+import React, { useState, useEffect } from "react";
 import "./Book.css";
 import * as actionCreators from "../../redux/Book/BookAction";
 import { useSelector, useDispatch } from "react-redux";
 
 const Book = () => {
-  //initialise db variable
-  const db = getFirestore();
-  //collection ref
-  const colRef_Books = collection(db, "books");
-  // [id, img, title, author, genre] = data;
   const [showDetailView, setShowDetailView] = useState(false);
   const [selectedBook, setSelectedBook] = useState("");
   const [booksData, setBooksData] = useState(
     useSelector((state) => state.book)
   );
-  const [loadingFlag, setLoadingFlag] = useState(true);
+
   const dispatch = useDispatch();
-  let titles = data.title;
+
   let booksRedux = useSelector((state) => state.book);
   console.log("redux res in book js=", booksRedux);
 
@@ -54,44 +37,10 @@ const Book = () => {
     setShowDetailView(false);
   };
 
-  // const currentBooks = useSelector((state) => state.book);
-
-  //const querySnapshot = await getDocs(collection(db, "books"));
-  //dispatch(actionCreators.fetchBook(booksData));
-  // let books = [];
-
-  // const fetchData = useCallback(() => {
-  //   getDocs(colRef_Books)
-  //     .then((snapshot) => {
-  //       snapshot.docs.forEach((doc) => {
-  //         books.push({ ...doc.data(), id: doc.id });
-  //       });
-  //       setBooksData(books);
-  //       setLoadingFlag(false);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err.message);
-  //     });
-  // }, [colRef_Books]);
-  // useEffect(() => {
-  //   fetchData();
-  // }, [booksData]);
-
-  // useEffect(() => {
-  //   dispatch(actionCreators.fetchBook(booksData));
-  // }, []);
   dispatch(actionCreators.fetchBook());
-  // const fetchDataa = useCallback(() => {
-  //   dispatch(actionCreators.fetchBook());
-  // }, []);
-  useEffect(() => {
-    // fetchDataa();
-  }, [booksRedux]);
-  // dispatch(actionCreators.fetchBook());
-  // const reduxBooks = useSelector((state) => state.book);
-  // console.log("redux books=", reduxBooks);
-  //console.log("Books dataaaa=", booksData);
-  // console.log("boooooks=", booksData);
+
+  useEffect(() => {}, [booksRedux]);
+
   if (booksRedux) {
     return booksRedux.map((book) => {
       return (
@@ -122,10 +71,6 @@ const Book = () => {
                   className="delete-btn"
                   variant="contained"
                   onClick={() => {
-                    // const docref = doc(db, "books", selectedBook.id);
-                    // deleteDoc(docref).then(() => {
-                    //   console.log("book deleted");
-                    // });
                     dispatch(actionCreators.removeBook(selectedBook));
 
                     const filteredBooks = booksRedux.filter(
@@ -133,7 +78,7 @@ const Book = () => {
                         book.author != selectedBook.author &&
                         book.id !== selectedBook.id
                     );
-                    // setBooksData(filteredBooks);
+
                     booksRedux = filteredBooks;
                     console.log("filtered new=", booksRedux);
                     setOpenAlert(true);

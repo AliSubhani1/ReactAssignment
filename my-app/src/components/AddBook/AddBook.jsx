@@ -1,22 +1,21 @@
-import * as React from "react";
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
+import * as React from "./node_modules/react";
+import Button from "./node_modules/@mui/material/Button";
+import TextField from "./node_modules/@mui/material/TextField";
+import Dialog from "./node_modules/@mui/material/Dialog";
+import DialogActions from "./node_modules/@mui/material/DialogActions";
+import DialogContent from "./node_modules/@mui/material/DialogContent";
+import DialogContentText from "./node_modules/@mui/material/DialogContentText";
+import DialogTitle from "./node_modules/@mui/material/DialogTitle";
 import * as actionCreators from "../../redux/Book/BookAction";
-import FormControl from "@mui/material/FormControl";
+import FormControl from "./node_modules/@mui/material/FormControl";
 import "./AddBook.css";
-import { useSelector, useDispatch } from "react-redux";
-import { getFirestore, collection, addDoc } from "firebase/firestore";
-import Select from "@mui/material/Select";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import Stack from "@mui/material/Stack";
-import Snackbar from "@mui/material/Snackbar";
-import MuiAlert from "@mui/material/Alert";
+import { useSelector, useDispatch } from "./node_modules/react-redux";
+import Select from "./node_modules/@mui/material/Select";
+import InputLabel from "./node_modules/@mui/material/InputLabel";
+import MenuItem from "./node_modules/@mui/material/MenuItem";
+import Stack from "./node_modules/@mui/material/Stack";
+import Snackbar from "./node_modules/@mui/material/Snackbar";
+import MuiAlert from "./node_modules/@mui/material/Alert";
 
 const AddBook = () => {
   const [open, setOpen] = React.useState(false);
@@ -48,8 +47,6 @@ const AddBook = () => {
     setOpenAlert(false);
   };
 
-  const db = getFirestore();
-  const colRef_Books = collection(db, "books");
   const handleClose = () => {
     setOpen(false);
     let currentBook = {
@@ -58,25 +55,12 @@ const AddBook = () => {
       genre: bookGenre,
     };
 
-    // let updatedArr = currentBooks.push(currentBook);
-
     dispatch(actionCreators.addBook(currentBook));
 
     setOpenAlert(true);
     setBookAuthor("");
     setBookTitle("");
     setBookGenre("");
-    // addDoc(colRef_Books, {
-    //   author: bookAuthor,
-    //   title: bookTitle,
-    //   genre: bookGenre,
-    // }).then(() => {
-    //   console.log("new book added to firestore");
-    //   setOpenAlert(true);
-    //   setBookAuthor("");
-    //   setBookTitle("");
-    //   setBookGenre("");
-    // });
   };
   const CloseDialog = () => {
     setOpen(false);
@@ -84,8 +68,7 @@ const AddBook = () => {
     setBookTitle("");
     setBookGenre("");
   };
-  // const [curAuthors] =  ...currentAuthors ;
-  // console.log("cur=", curAuthors);
+
   return (
     <div className="add-book">
       <Button
@@ -111,7 +94,6 @@ const AddBook = () => {
             variant="standard"
             onChange={(e) => {
               setBookTitle(e.target.value);
-              //console.log(email);
             }}
             value={bookTitle}
           />
@@ -121,47 +103,22 @@ const AddBook = () => {
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                // value=
                 label="Author"
                 onChange={(e) => {
                   setBookAuthor(e.target.value);
-                  //console.log(email);
                 }}
               >
-                {
-                  currentAuthors.map((author) => {
-                    return (
-                      <MenuItem key={author.id} value={author.name}>
-                        {author.name}
-                      </MenuItem>
-                    );
-                  })
-
-                  // {currentAuthors.map((author) => {
-                  //   return (
-                  //     <div key={author.id}>
-                  //       <MenuItem value={author}>{author}</MenuItem>
-                  //     </div>
-                  //   );
-                  // })}
-                }
+                {currentAuthors.map((author) => {
+                  return (
+                    <MenuItem key={author.id} value={author.name}>
+                      {author.name}
+                    </MenuItem>
+                  );
+                })}
               </Select>
             </FormControl>
           </div>
-          {/* <TextField
-            margin="dense"
-            id="Author"
-            label="Author Name"
-            type="text"
-            fullWidth
-            required
-            variant="standard"
-            onChange={(e) => {
-              setBookAuthor(e.target.value);
-              //console.log(email);
-            }}
-            value={bookAuthor}
-          /> */}
+
           <TextField
             margin="dense"
             id="Genre"
@@ -172,7 +129,6 @@ const AddBook = () => {
             variant="standard"
             onChange={(e) => {
               setBookGenre(e.target.value);
-              //console.log(email);
             }}
             value={bookGenre}
           />

@@ -1,12 +1,8 @@
 import React, { useState } from "react";
-import Input from "@mui/material/Input";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import fire from "../../firebase/firebase";
 import "./SignUp.css";
 import { useSelector, useDispatch } from "react-redux";
-import { bindActionCreators } from "redux";
 import * as actionCreators from "../../redux/signup/signupAction";
 
 const SignUp = () => {
@@ -79,7 +75,6 @@ const SignUp = () => {
           <input
             onChange={(e) => {
               setEmail(e.target.value);
-              //console.log(email);
             }}
             type="email"
             label="Email"
@@ -87,14 +82,13 @@ const SignUp = () => {
             required
             value={email}
           />
-          {/* <p className="error-msg">{emailError}</p> */}
+
           <div className="error">{emailError}</div>
         </div>
         <div>
           <input
             onChange={(e) => {
               setPassword(e.target.value);
-              //console.log(password);
             }}
             placeholder="Password"
             label="Password"
@@ -107,7 +101,6 @@ const SignUp = () => {
           <input
             onChange={(e) => {
               setConfirmPassword(e.target.value);
-              //console.log(password);
             }}
             placeholder="Confirm Password"
             label="Confirm Password"

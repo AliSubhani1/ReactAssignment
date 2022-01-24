@@ -8,8 +8,6 @@ const signupReducer = (state = registerUser, action) => {
   switch (action.type) {
     case SIGNUP_SUCCESS:
       return {
-        // ...state,
-        // numOfCakes: state.numOfCakes - 1,
         isRegistered: true,
       };
     case SIGNUP_FAIL:

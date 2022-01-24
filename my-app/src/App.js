@@ -37,14 +37,6 @@ const theme = createTheme({
 
 function App() {
   const loginState = useSelector((state) => state.login);
-  // let signInStatus = "";
-
-  // console.log("redux state from app js=", loginState.isLogin);
-  // if (loginState.isLogin) {
-  //   signInStatus = "Sign Out";
-  // } else {
-  //   signInStatus = "Sign In";
-  // }
 
   return (
     <Router>

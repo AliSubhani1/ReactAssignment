@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState, useEffect } from "react";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
@@ -6,29 +6,18 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import Slide from "@mui/material/Slide";
 import * as actionCreators from "../../redux/Author/AuthorAction";
 import Stack from "@mui/material/Stack";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import { useSelector, useDispatch } from "react-redux";
-import { useState, useEffect } from "react";
-import {
-  getFirestore,
-  collection,
-  addDoc,
-  getDocs,
-  deleteDoc,
-  doc,
-} from "firebase/firestore";
+import { getFirestore, collection, addDoc } from "firebase/firestore";
+
 const AddAuthor = () => {
   const [open, setOpen] = React.useState(false);
-  const [AuthorsData, setAuthorsData] = useState(
-    useSelector((state) => state.author)
-  );
   const [AuthorName, setAuthorName] = useState([]);
   const [openAlert, setOpenAlert] = React.useState(false);
-  const authorRedux = useSelector((state) => state.author);
+  const AuthorsData = useSelector((state) => state.author);
   const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
   });
@@ -37,21 +26,17 @@ const AddAuthor = () => {
     if (reason === "clickaway") {
       return;
     }
-
     setOpenAlert(false);
   };
 
-  //initialise db variable
   const db = getFirestore();
-
-  //collection ref
   const colRef_Authors = collection(db, "authors");
   const dispatch = useDispatch();
   const handleClickOpen = () => {
     setOpen(true);
   };
 
-  const handleClose = () => {
+  const handleAddAuthor = () => {
     setOpen(false);
     addDoc(colRef_Authors, {
       name: AuthorName,
@@ -60,31 +45,16 @@ const AddAuthor = () => {
       setOpenAlert(true);
     });
     AuthorsData.push({ name: AuthorName });
-    // dispatch(actionCreators.fetchAuthor());
     setAuthorName("");
   };
   const CloseDialog = () => {
     setOpen(false);
     setAuthorName("");
   };
-  //const querySnapshot = await getDocs(collection(db, "books"));
-  let authors = [];
-  useEffect(() => {
-    // getDocs(colRef_Authors)
-    //   .then((snapshot) => {
-    //     snapshot.docs.forEach((doc) => {
-    //       authors.push({ ...doc.data(), id: doc.id });
-    //     });
-    //     setAuthorsData(authors);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err.message);
-    //   });
-  }, []);
-  // console.log("latest authors=", AuthorsData);
+
   dispatch(actionCreators.fetchAuthor());
   return (
-    <div>
+    <>
       <Button variant="contained" onClick={handleClickOpen}>
         Add Author
       </Button>
@@ -103,13 +73,12 @@ const AddAuthor = () => {
             variant="standard"
             onChange={(e) => {
               setAuthorName(e.target.value);
-              //console.log(email);
             }}
             value={AuthorName}
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Add Author</Button>
+          <Button onClick={handleAddAuthor}>Add Author</Button>
         </DialogActions>
       </Dialog>
       {openAlert && (
@@ -129,7 +98,7 @@ const AddAuthor = () => {
           </Snackbar>
         </Stack>
       )}
-    </div>
+    </>
   );
 };
 

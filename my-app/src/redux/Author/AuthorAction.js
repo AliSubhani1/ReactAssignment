@@ -3,19 +3,11 @@ import {
   FETCH_AUTHORS_SUCCESS,
   FETCH_AUTHORS_FAILURE,
 } from "./AuthorTypes";
-import {
-  getFirestore,
-  collection,
-  addDoc,
-  getDocs,
-  deleteDoc,
-  doc,
-} from "firebase/firestore";
-import { useState, useEffect } from "react";
-//initialise db variable
+import { getFirestore, collection, getDocs } from "firebase/firestore";
+import { useEffect } from "react";
+
 const db = getFirestore();
 
-//collection ref
 const colRef_Authors = collection(db, "authors");
 export const addAuthor = (author) => {
   return (dispatch) => {
@@ -27,7 +19,6 @@ export const addAuthor = (author) => {
 };
 
 export const fetchAuthor = () => {
-  // const [AuthorsData, setAuthorsData] = useState([]);
   return (dispatch) => {
     let authors = [];
     useEffect(() => {
@@ -36,7 +27,7 @@ export const fetchAuthor = () => {
           snapshot.docs.forEach((doc) => {
             authors.push({ ...doc.data(), id: doc.id });
           });
-          // setAuthorsData(authors);
+
           dispatch({
             type: FETCH_AUTHORS_SUCCESS,
             payload: authors,

@@ -8,8 +8,6 @@ const loginReducer = (state = user, action) => {
   switch (action.type) {
     case LOGIN_SUCCESS:
       return {
-        // ...state,
-        // numOfCakes: state.numOfCakes - 1,
         isLogin: true,
       };
     case LOGIN_FAIL:
