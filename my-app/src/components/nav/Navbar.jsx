@@ -1,8 +1,8 @@
-import "./navbar.css";
-import React, { useState, useEffect } from "./node_modules/react";
-import { Redirect, Link } from "./node_modules/react-router-dom";
-import { useSelector } from "./node_modules/react-redux";
-import { getAuth, signOut } from "./node_modules/firebase/auth";
+import "./Navbar.css";
+import React, { useState, useEffect } from "react";
+import { Redirect, Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { getAuth, signOut } from "firebase/auth";
 const Navbar = () => {
   const loginState = useSelector((state) => state.login);
   console.log("loginState from navabr=", loginState);

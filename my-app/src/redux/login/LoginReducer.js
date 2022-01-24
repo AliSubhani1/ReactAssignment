@@ -1,4 +1,4 @@
-import { LOGIN_SUCCESS, LOGIN_FAIL } from "./LoginTypes";
+import { LOGIN_SUCCESS, LOGIN_FAILURE } from "./LoginTypes";
 
 const user = {
   isLogin: false,
@@ -10,7 +10,7 @@ const loginReducer = (state = user, action) => {
       return {
         isLogin: true,
       };
-    case LOGIN_FAIL:
+    case LOGIN_FAILURE:
       return {
         isLogin: false,
       };

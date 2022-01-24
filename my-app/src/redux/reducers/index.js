@@ -1,5 +1,5 @@
-import { combineReducers } from "./node_modules/redux";
-import loginReducer from "../login/LoginReducer";
+import { combineReducers } from "redux";
+import loginReducer from "../Login/LoginReducer";
 import signupReducer from "../Signup/SignupReducer";
 import bookReducer from "../Book/BookReducer";
 import authorReducer from "../Author/AuthorReducer";

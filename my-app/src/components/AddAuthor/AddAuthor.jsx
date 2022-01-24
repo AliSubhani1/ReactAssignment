@@ -7,6 +7,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import * as actionCreators from "../../redux/Author/AuthorAction";
+//import { actionCreators } from "../../redux/Actions/Index";
 import Stack from "@mui/material/Stack";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
@@ -15,14 +16,14 @@ import { getFirestore, collection, addDoc } from "firebase/firestore";
 
 const AddAuthor = () => {
   const [open, setOpen] = React.useState(false);
-  const [AuthorName, setAuthorName] = useState([]);
+  const [authorName, setAuthorName] = useState([]);
   const [openAlert, setOpenAlert] = React.useState(false);
-  const AuthorsData = useSelector((state) => state.author);
+  const authorsData = useSelector((state) => state.author);
   const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
   });
 
-  const handleCloseAlert = (event, reason) => {
+  const handleCloseAlert = (reason) => {
     if (reason === "clickaway") {
       return;
     }
@@ -30,31 +31,35 @@ const AddAuthor = () => {
   };
 
   const db = getFirestore();
-  const colRef_Authors = collection(db, "authors");
+
+  const collectionAuthors = collection(db, "authors");
   const dispatch = useDispatch();
   const handleClickOpen = () => {
     setOpen(true);
   };
 
-  const handleAddAuthor = () => {
+  const addAuthorAndCloseDialog = () => {
     setOpen(false);
-    addDoc(colRef_Authors, {
-      name: AuthorName,
-    }).then(() => {
-      console.log("new author to firestore");
-      setOpenAlert(true);
-    });
-    AuthorsData.push({ name: AuthorName });
+
+    setOpenAlert(true);
+    authorsData.push({ name: authorName });
+    dispatch(actionCreators.addAuthor(authorName, authorsData));
+    console.log("new authors=", authorsData);
     setAuthorName("");
   };
   const CloseDialog = () => {
     setOpen(false);
     setAuthorName("");
   };
-
-  dispatch(actionCreators.fetchAuthor());
+  useEffect(() => {
+    dispatch(actionCreators.fetchAuthor());
+  }, [authorName]);
+  const handleChange = (e) => {
+    setAuthorName(e.target.value);
+    //console.log(email);
+  };
   return (
-    <>
+    <div>
       <Button variant="contained" onClick={handleClickOpen}>
         Add Author
       </Button>
@@ -71,14 +76,12 @@ const AddAuthor = () => {
             type="text"
             fullWidth
             variant="standard"
-            onChange={(e) => {
-              setAuthorName(e.target.value);
-            }}
-            value={AuthorName}
+            onChange={(e) => handleChange(e)}
+            value={authorName}
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleAddAuthor}>Add Author</Button>
+          <Button onClick={addAuthorAndCloseDialog}>Add Author</Button>
         </DialogActions>
       </Dialog>
       {openAlert && (
@@ -98,7 +101,7 @@ const AddAuthor = () => {
           </Snackbar>
         </Stack>
       )}
-    </>
+    </div>
   );
 };
 

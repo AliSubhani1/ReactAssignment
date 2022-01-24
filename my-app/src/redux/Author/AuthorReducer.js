@@ -3,6 +3,9 @@ import {
   FETCH_AUTHORS_SUCCESS,
   FETCH_AUTHORS_FAILURE,
 } from "./AuthorTypes";
+const initialState = {
+  authors: [],
+};
 
 const authorReducer = (state = [], action) => {
   switch (action.type) {

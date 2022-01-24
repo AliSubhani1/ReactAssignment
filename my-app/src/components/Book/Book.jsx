@@ -10,14 +10,8 @@ import { useSelector, useDispatch } from "react-redux";
 const Book = () => {
   const [showDetailView, setShowDetailView] = useState(false);
   const [selectedBook, setSelectedBook] = useState("");
-  const [booksData, setBooksData] = useState(
-    useSelector((state) => state.book)
-  );
 
   const dispatch = useDispatch();
-
-  let booksRedux = useSelector((state) => state.book);
-  console.log("redux res in book js=", booksRedux);
 
   const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -25,7 +19,7 @@ const Book = () => {
 
   const [openAlert, setOpenAlert] = React.useState(false);
 
-  const handleClose = (event, reason) => {
+  const handleClose = (reason) => {
     if (reason === "clickaway") {
       return;
     }
@@ -36,21 +30,24 @@ const Book = () => {
   const closeNav = () => {
     setShowDetailView(false);
   };
-
-  dispatch(actionCreators.fetchBook());
-
-  useEffect(() => {}, [booksRedux]);
-
-  if (booksRedux) {
-    return booksRedux.map((book) => {
+  let booksData = useSelector((state) => state.book);
+  console.log("redux res in book js=", booksData);
+  useEffect(() => {
+    dispatch(actionCreators.fetchBook());
+  }, []);
+  const handleBookDetails = (book) => {
+    setShowDetailView(true);
+    setSelectedBook(book);
+  };
+  if (booksData) {
+    return booksData.map((book) => {
       return (
         <div className="Books" key={book.id}>
           <Button
             className="button"
             variant="outlined"
-            onClick={() => {
-              setShowDetailView(true);
-              setSelectedBook(book);
+            onClick={(book) => {
+              handleBookDetails(book);
             }}
           >
             {book.title}
@@ -73,14 +70,14 @@ const Book = () => {
                   onClick={() => {
                     dispatch(actionCreators.removeBook(selectedBook));
 
-                    const filteredBooks = booksRedux.filter(
+                    const filteredBooks = booksData.filter(
                       (book) =>
                         book.author != selectedBook.author &&
                         book.id !== selectedBook.id
                     );
 
-                    booksRedux = filteredBooks;
-                    console.log("filtered new=", booksRedux);
+                    booksData = filteredBooks;
+                    console.log("filtered new=", booksData);
                     setOpenAlert(true);
                   }}
                 >
@@ -88,7 +85,7 @@ const Book = () => {
                 </Button>
               </div>
               <p>Other books by same author:</p>
-              {booksRedux
+              {booksData
                 .filter(
                   (book) =>
                     book.author == selectedBook.author &&

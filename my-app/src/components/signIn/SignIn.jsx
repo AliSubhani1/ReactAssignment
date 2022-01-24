@@ -1,15 +1,9 @@
-import React, { useState, useEffect } from "./node_modules/react";
-import {
-  getAuth,
-  signInWithEmailAndPassword,
-  setPersistence,
-  onAuthStateChanged,
-  browserSessionPersistence,
-} from "./node_modules/firebase/auth";
-import Button from "./node_modules/@mui/material/Button";
-import fire from "../../Firebase";
+import React, { useState, useEffect } from "react";
+import { getAuth } from "firebase/auth";
+import Button from "@mui/material/Button";
+
 import "./SignIn.css";
-import { useDispatch } from "./node_modules/react-redux";
+import { useDispatch } from "react-redux";
 import * as actionCreators from "../../redux/Login/LoginAction";
 
 const SignIn = () => {
@@ -32,65 +26,14 @@ const SignIn = () => {
   };
   const CurrentUser = {
     isLogin: false,
+    email: email,
+    password: password,
   };
   const handleLogin = () => {
     clearErrors();
 
     const auth = getAuth();
-
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-
-        dispatch(actionCreators.logInSuccess(CurrentUser));
-
-        console.log("Signed in to firebase");
-        console.log(user);
-        localStorage.setItem("isLoggedin", true);
-      })
-      .catch((error) => {
-        console.log("error section of login");
-        localStorage.setItem("isLoggedin", false);
-
-        dispatch(actionCreators.logInFail(CurrentUser));
-        var errorCode = error.code;
-        var errorMessage = error.message;
-        console.log("Error code=", errorCode);
-        console.log("Error Message=", errorMessage);
-        switch (errorCode) {
-          case "auth/invalid-email":
-            setEmailError("Error: Invalid Email");
-            break;
-          case "auth/user-disabled":
-            setUserError("Error: User Disabled");
-            break;
-          case "auth/user-not-found":
-            setUserError("Error: User not found");
-            break;
-          case "auth/wrong-password":
-            setPasswordError("Error: Wrong Password");
-            break;
-        }
-      });
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        const uid = user.uid;
-
-        dispatch(actionCreators.logInSuccess(CurrentUser));
-      } else {
-      }
-    });
-    setPersistence(auth, browserSessionPersistence)
-      .then(() => {
-        CurrentUser.isLogin = true;
-
-        return signInWithEmailAndPassword(auth, email, password);
-      })
-      .catch((error) => {
-        CurrentUser.isLogin = false;
-        const errorCode = error.code;
-        const errorMessage = error.message;
-      });
+    dispatch(actionCreators.performLogin(CurrentUser, email, password));
     clearInputs();
     if (email && password) {
       console.log(email, password);
@@ -108,6 +51,15 @@ const SignIn = () => {
   useEffect(() => {
     authListener();
   }, []);
+  const handleEmail = (e) => {
+    {
+      setEmail(e.target.value);
+    }
+  };
+  const handlePassword = (e) => {
+    setPassword(e.target.value);
+  };
+  useEffect(() => {}, []);
   return (
     <div className="login">
       <h3>Already have an account? </h3>
@@ -115,7 +67,7 @@ const SignIn = () => {
         <div>
           <input
             onChange={(e) => {
-              setEmail(e.target.value);
+              handleEmail(e);
             }}
             type="email"
             label="Email"
@@ -128,7 +80,7 @@ const SignIn = () => {
         <div>
           <input
             onChange={(e) => {
-              setPassword(e.target.value);
+              handlePassword(e);
             }}
             placeholder="Password"
             label="Password"

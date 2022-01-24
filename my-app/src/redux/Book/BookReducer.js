@@ -5,7 +5,9 @@ import {
   FETCH_BOOKS_FAILURE,
   FETCH_BOOKS_SUCCESS,
 } from "./BookTypes";
-
+const initialState = {
+  books: [],
+};
 const bookReducer = (state = null, action) => {
   switch (action.type) {
     case ADD_BOOK_SUCCESS:

@@ -12,7 +12,6 @@ import {
   deleteDoc,
   doc,
 } from "firebase/firestore";
-import { useEffect } from "react";
 
 export const removeBook = (book) => {
   return (dispatch) => {
@@ -53,25 +52,22 @@ export const fetchBook = () => {
     const db = getFirestore();
     const colRef_Books = collection(db, "books");
 
-    useEffect(() => {
-      getDocs(colRef_Books)
-        .then((snapshot) => {
-          snapshot.docs.forEach((doc) => {
-            books.push({ ...doc.data(), id: doc.id });
-          });
-          dispatch({
-            type: FETCH_BOOKS_SUCCESS,
-            payload: books,
-          });
-        })
-        .catch((err) => {
-          console.log(err.message);
-          dispatch({
-            type: FETCH_BOOKS_FAILURE,
-            payload: books,
-          });
+    getDocs(colRef_Books)
+      .then((snapshot) => {
+        snapshot.docs.forEach((doc) => {
+          books.push({ ...doc.data(), id: doc.id });
         });
-    }, []);
+        console.log("hello books=", books);
+        dispatch({
+          type: FETCH_BOOKS_SUCCESS,
+          payload: books,
+        });
+      })
+      .catch((err) => {
+        console.log(err.message);
+        dispatch({
+          type: FETCH_BOOKS_FAILURE,
+        });
+      });
   };
 };
-fetchBook();

@@ -1,21 +1,21 @@
-import * as React from "./node_modules/react";
-import Button from "./node_modules/@mui/material/Button";
-import TextField from "./node_modules/@mui/material/TextField";
-import Dialog from "./node_modules/@mui/material/Dialog";
-import DialogActions from "./node_modules/@mui/material/DialogActions";
-import DialogContent from "./node_modules/@mui/material/DialogContent";
-import DialogContentText from "./node_modules/@mui/material/DialogContentText";
-import DialogTitle from "./node_modules/@mui/material/DialogTitle";
+import React from "react";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 import * as actionCreators from "../../redux/Book/BookAction";
-import FormControl from "./node_modules/@mui/material/FormControl";
+import FormControl from "@mui/material/FormControl";
 import "./AddBook.css";
-import { useSelector, useDispatch } from "./node_modules/react-redux";
-import Select from "./node_modules/@mui/material/Select";
-import InputLabel from "./node_modules/@mui/material/InputLabel";
-import MenuItem from "./node_modules/@mui/material/MenuItem";
-import Stack from "./node_modules/@mui/material/Stack";
-import Snackbar from "./node_modules/@mui/material/Snackbar";
-import MuiAlert from "./node_modules/@mui/material/Alert";
+import { useSelector, useDispatch } from "react-redux";
+import Select from "@mui/material/Select";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import Stack from "@mui/material/Stack";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
 
 const AddBook = () => {
   const [open, setOpen] = React.useState(false);
@@ -47,7 +47,7 @@ const AddBook = () => {
     setOpenAlert(false);
   };
 
-  const handleClose = () => {
+  const handleCloseAndAddBook = () => {
     setOpen(false);
     let currentBook = {
       author: bookAuthor,
@@ -62,13 +62,21 @@ const AddBook = () => {
     setBookTitle("");
     setBookGenre("");
   };
-  const CloseDialog = () => {
+  const closeDialog = () => {
     setOpen(false);
     setBookAuthor("");
     setBookTitle("");
     setBookGenre("");
   };
-
+  const handleBookTitle = (e) => {
+    setBookTitle(e.target.value);
+  };
+  const handleAuthor = (e) => {
+    setBookAuthor(e.target.value);
+  };
+  const handleBookGenre = (e) => {
+    setBookGenre(e.target.value);
+  };
   return (
     <div className="add-book">
       <Button
@@ -78,7 +86,7 @@ const AddBook = () => {
       >
         Add Book
       </Button>
-      <Dialog open={open} onClose={CloseDialog}>
+      <Dialog open={open} onClose={closeDialog}>
         <DialogTitle>Add new book</DialogTitle>
         <DialogContent className="dialog-content">
           <DialogContentText>
@@ -93,7 +101,7 @@ const AddBook = () => {
             required
             variant="standard"
             onChange={(e) => {
-              setBookTitle(e.target.value);
+              handleBookTitle(e);
             }}
             value={bookTitle}
           />
@@ -105,12 +113,12 @@ const AddBook = () => {
                 id="demo-simple-select"
                 label="Author"
                 onChange={(e) => {
-                  setBookAuthor(e.target.value);
+                  handleAuthor(e);
                 }}
               >
-                {currentAuthors.map((author) => {
+                {currentAuthors.map((author, index) => {
                   return (
-                    <MenuItem key={author.id} value={author.name}>
+                    <MenuItem key={index} value={author.name}>
                       {author.name}
                     </MenuItem>
                   );
@@ -128,13 +136,13 @@ const AddBook = () => {
             required
             variant="standard"
             onChange={(e) => {
-              setBookGenre(e.target.value);
+              handleBookGenre(e);
             }}
             value={bookGenre}
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Add Book</Button>
+          <Button onClick={handleCloseAndAddBook}>Add Book</Button>
         </DialogActions>
       </Dialog>
       {openAlert && (

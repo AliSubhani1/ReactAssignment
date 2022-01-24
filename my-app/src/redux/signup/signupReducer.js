@@ -1,4 +1,4 @@
-import { SIGNUP_SUCCESS, SIGNUP_FAIL } from "./SignupTypes";
+import { SIGNUP_SUCCESS, SIGNUP_FAILURE } from "./SignupTypes";
 
 const registerUser = {
   isRegistered: false,
@@ -10,7 +10,7 @@ const signupReducer = (state = registerUser, action) => {
       return {
         isRegistered: true,
       };
-    case SIGNUP_FAIL:
+    case SIGNUP_FAILURE:
       return {
         isRegistered: false,
       };

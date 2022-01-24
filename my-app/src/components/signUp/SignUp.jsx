@@ -1,9 +1,13 @@
 import React, { useState } from "react";
+import Input from "@mui/material/Input";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+import fire from "../../Firebase";
 import "./SignUp.css";
 import { useSelector, useDispatch } from "react-redux";
-import * as actionCreators from "../../redux/signup/signupAction";
+import { bindActionCreators } from "redux";
+import * as actionCreators from "../../redux/Signup/SignupAction";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
@@ -30,34 +34,8 @@ const SignUp = () => {
     const auth = getAuth();
     console.log("redux register value=", signupState);
     if (password === confirmPassword) {
-      createUserWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-          // Signed in
-          const user = userCredential.user;
-          console.log("firebase user sign up section=", user);
-          NewUser.isRegistered = true;
-          dispatch(actionCreators.signUpSuccess(NewUser));
-          // ...
-        })
-        .catch((error) => {
-          var errorCode = error.code;
-          console.log("firebase sign up error code=", errorCode);
-          NewUser.isRegistered = false;
-          dispatch(actionCreators.signUpSuccess(NewUser));
-          var errorMessage = error.message;
-          console.log("firebase sign up error msg=", errorMessage);
-          switch (errorCode) {
-            case "auth/email-already-in-use":
-              setEmailError("Error: Email already in use");
-              break;
-            case "auth/invalid-email":
-              setEmailError("Error: Invalid Email");
-              break;
-            case "auth/weak-password":
-              setPasswordError("Error: Weak Password");
-              break;
-          }
-        });
+      //dispatch here
+      dispatch(actionCreators.performSignUp(NewUser, email, password));
     } else {
       setPasswordError("Error: Password Not Matched");
     }
@@ -67,6 +45,19 @@ const SignUp = () => {
       console.log(email, password, confirmPassword);
     }
   };
+  const handleEmail = (e) => {
+    setEmail(e.target.value);
+    //console.log(email);
+  };
+  const handlePassword = (e) => {
+    setPassword(e.target.value);
+    //console.log(password);
+  };
+  const handleConfirmPassword = (e) => {
+    setConfirmPassword(e.target.value);
+    //console.log(password);
+  };
+
   return (
     <div className="register-user">
       <h3>Register your account! </h3>
@@ -74,7 +65,7 @@ const SignUp = () => {
         <div>
           <input
             onChange={(e) => {
-              setEmail(e.target.value);
+              handleEmail(e);
             }}
             type="email"
             label="Email"
@@ -82,13 +73,13 @@ const SignUp = () => {
             required
             value={email}
           />
-
+          {/* <p className="error-msg">{emailError}</p> */}
           <div className="error">{emailError}</div>
         </div>
         <div>
           <input
             onChange={(e) => {
-              setPassword(e.target.value);
+              handlePassword(e);
             }}
             placeholder="Password"
             label="Password"
@@ -100,7 +91,7 @@ const SignUp = () => {
         <div>
           <input
             onChange={(e) => {
-              setConfirmPassword(e.target.value);
+              handleConfirmPassword(e);
             }}
             placeholder="Confirm Password"
             label="Confirm Password"
