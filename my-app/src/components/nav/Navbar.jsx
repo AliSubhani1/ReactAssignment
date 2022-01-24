@@ -39,7 +39,7 @@ const Navbar = () => {
     return (
       <>
         {loginFlag && <Redirect to="/home" />}
-        <Redirect to="/home" />;
+        <Redirect to="/home" />
         <nav className="main-menu">
           <ul>
             <li>

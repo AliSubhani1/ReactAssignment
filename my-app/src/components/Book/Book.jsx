@@ -46,8 +46,9 @@ const Book = () => {
           <Button
             className="button"
             variant="outlined"
-            onClick={(book) => {
-              handleBookDetails(book);
+            onClick={() => {
+              setShowDetailView(true);
+              setSelectedBook(book);
             }}
           >
             {book.title}
