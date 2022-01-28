@@ -10,18 +10,22 @@ import * as actionCreators from "../../redux/Author/AuthorAction";
 //import { actionCreators } from "../../redux/Actions/Index";
 import Stack from "@mui/material/Stack";
 import Snackbar from "@mui/material/Snackbar";
-import MuiAlert from "@mui/material/Alert";
+import Alert from "@mui/material/Alert";
 import { useSelector, useDispatch } from "react-redux";
 import { getFirestore, collection, addDoc } from "firebase/firestore";
 
+interface RootState {
+  author: any;
+}
+
 const AddAuthor = () => {
-  const [open, setOpen] = React.useState(false);
-  const [authorName, setAuthorName] = useState([]);
-  const [openAlert, setOpenAlert] = React.useState(false);
-  const authorsData = useSelector((state) => state.author);
-  const Alert = React.forwardRef(function Alert(props, ref) {
-    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-  });
+  const [open, setOpen] = React.useState<boolean>(false);
+  const [authorName, setAuthorName] = useState<string>("");
+  const [openAlert, setOpenAlert] = React.useState<boolean>(false);
+  const authorsData = useSelector((state: RootState) => state.author);
+  // const Alert = React.forwardRef(function Alert(props, ref) {
+  //   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  // });
 
   const handleCloseAlert = (reason) => {
     if (reason === "clickaway") {
